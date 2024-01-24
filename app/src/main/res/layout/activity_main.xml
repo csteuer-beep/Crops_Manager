@@ -257,14 +257,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/weatherIcon"
+                android:id="@+id/temperatureTextView"
                 android:text="14°C"
                 android:textSize="30dp">
             </TextView>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/weatherCondition"
+                android:id="@+id/dateTextView"
                 android:text="Now"
                 android:textSize="18sp"
                 android:textColor="#000000">
@@ -290,8 +290,5 @@
             android:textSize="20sp" />
 
     </RelativeLayout>
-
-
-
 
 </RelativeLayout>
