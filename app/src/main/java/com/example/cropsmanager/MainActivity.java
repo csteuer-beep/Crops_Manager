@@ -1,5 +1,6 @@
 package com.example.cropsmanager;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -37,15 +38,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        login();
+
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        String tokenString = sharedPref.getString("token", null);
+        if (tokenString == null){
+            login();
+        }
+
     }
 
 
     public void login(){
         RestRequests rest = ServiceGenerator.createService(RestRequests.class);
         JsonObject user = new JsonObject();
-        user.addProperty("username", "mario.lopez.cea@alumnos.upm.es");
-        user.addProperty("password", "981614402mLc_");
+        //user.addProperty("username", "----------");
+        //user.addProperty("password", "-----------");
         Call<JsonObject> resp = rest.getToken(user);
         resp.enqueue(new Callback<JsonObject>() {
             @Override
@@ -69,7 +76,18 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                 }else{
-                    Toast.makeText(getApplicationContext(), "Error al recivir el dato", Toast.LENGTH_SHORT).show();
+
+
+                    new AlertDialog.Builder(MainActivity.this)
+                            .setTitle("Error when log-in")
+                            .setMessage("Authetication failed: error code " + response.code())
+                            // A null listener allows the button to dismiss the dialog and take no further action.
+                            .setNegativeButton("Close", null)
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
+
+
+                    //Toast.makeText(getApplicationContext(), "Error code " + response.code() +": " + response.errorBody(), Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -91,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
         String tokenString = sharedPref.getString("token", null);
 
 
-        Call<JsonObject> resp = rest.getPhLevel(tokenString,"H2lukryqzpwHKLSJ4bZb");
+        Call<JsonObject> resp = rest.getPhLevel(tokenString);
         resp.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
