@@ -13,6 +13,14 @@
         android:theme="@style/Theme.CropsManager"
         tools:targetApi="31">
         <activity
+            android:name=".login_activity"
+            android:exported="false" />
+        <activity
+            android:name=".Login_activity"
+            android:exported="false"
+            android:label="@string/title_activity_login"
+            android:theme="@style/Theme.CropsManager" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Crops Manager</string>
+    <string name="title_activity_login">Login_activity</string>
 </resources>
