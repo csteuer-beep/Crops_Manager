@@ -99,7 +99,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/baseline_water_drop_24">
+                    android:drawableLeft="@drawable/baseline_water_24">
                 </TextView>
                 <TextView
                     android:id="@+id/soilMoisture"
@@ -280,6 +280,7 @@
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp">
         <Button
+            android:id="@+id/updateButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"

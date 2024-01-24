@@ -76,6 +76,7 @@
         android:layout_below="@+id/passwordSection"
         android:gravity="center">
         <Button
+            android:id="@+id/loginButton"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:text="Login"
