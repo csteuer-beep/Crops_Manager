@@ -11,6 +11,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.cropsmanager.REST.RestRequests;
@@ -42,9 +43,12 @@ public class MainActivity extends AppCompatActivity {
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getPh();
+                getSensorsValues();
             }
         });
+
+        b.callOnClick();
+        getSensorsValues();
 
 
     }
@@ -53,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    public void getPh(){
+    public void getSensorsValues(){
         RestRequests rest = ServiceGenerator.createService(RestRequests.class);
 
 
@@ -61,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         String tokenString = sharedPref.getString("token", null);
 
 
-        Call<JsonObject> resp = rest.getPhLevel(tokenString);
+        Call<JsonObject> resp = rest.getSensorValues(tokenString);
         resp.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
@@ -69,8 +73,28 @@ public class MainActivity extends AppCompatActivity {
                     try{
 
                         JSONObject js = new JSONObject(response.body().toString());
-                        Double value = js.getJSONObject("shared").getDouble("phvalue");
-                        Toast.makeText(getApplicationContext(), "Ph value:" + value, Toast.LENGTH_SHORT).show();
+                        JSONObject values = js.getJSONObject("shared");
+
+                        TextView temperatureTV = findViewById(R.id.temperatureValueValue);
+                        TextView soilmoistureTV = findViewById(R.id.soilMoistureValueValue);
+                        TextView distanceTV = findViewById(R.id.distanceValue);
+                        TextView phvalueTV = findViewById(R.id.phValue);
+                        TextView humidityTV = findViewById(R.id.HumidityValue);
+                        TextView precipitationsTV = findViewById(R.id.weatherValue);
+
+                        Double temperature = values.getDouble("temperature");
+                        Double soilmoisture = values.getDouble("soilmoisture");
+                        Double distance = values.getDouble("distance");
+                        Double phvalue = values.getDouble("phvalue");
+                        Double humidity = values.getDouble("humidity");
+                        Double precipitation = values.getDouble("precipitate");
+
+                        temperatureTV.setText(String.format("%.1f", temperature) + " ºC");
+                        soilmoistureTV.setText(String.format("%.0f", soilmoisture) + " %");
+                        distanceTV.setText(String.format("%.1f", distance) + " cm");
+                        phvalueTV.setText(String.format("%.0f", phvalue) + " pH");
+                        humidityTV.setText(String.format("%.0f", humidity) + " %");
+                        precipitationsTV.setText(String.format("%.1f", precipitation) + " mm");
 
 
                     }catch (Exception ex){

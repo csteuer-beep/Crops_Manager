@@ -16,28 +16,14 @@ import retrofit2.http.Query;
 
 public interface RestRequests {
 
-
-
+    
     @Headers({"Accept: application/json", "Content-Type: application/json"})
     @POST("auth/login")
     Call<JsonObject> getToken(@Body JsonObject user);
 
-
     @Headers({"Accept: application/json"})
-    @GET("v1/H2lukryqzpwHKLSJ4bZb/attributes?sharedKeys=phvalue")
-    Call<JsonObject> getPhLevel(@Header("X-Authoritation") String token);
+    @GET("v1/bfALtJHAbqRZoN4kV1Ib/attributes?sharedKeys=phvalue,precipitate,soilmoisture,temperature,temperatureaverage,humidity,distance")
+    Call<JsonObject> getSensorValues(@Header("X-Authoritation") String token);
 
-    @Headers({"Accept: application/json"})
-    @GET("v1/IgbZRIBzvTybfPB4AudP/attributes?sharedKeys=phvalue")
-    Call<JsonObject> getNodeRedValues(@Header("X-Authoritation") String token);
 
-    @Headers({"Accept: application/json"})
-    @GET("v1/bfALtJHAbqRZoN4kV1Ib/attributes?sharedKeys=phvalue")
-    Call<JsonObject> getMicrocontrollerValues(@Header("X-Authoritation") String token);
-
-    /*
-    @Headers({"Accept: text/plain", "Content-Type: application/json"})
-    @POST("v1/{device_access_token}/telemetry")
-    Call<JsonObject> sendPhLevel(@Body JsonObject ph, @Path("device_access_token") String device_access_token);
-     */
 }
