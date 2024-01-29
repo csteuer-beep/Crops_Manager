@@ -6,221 +6,230 @@
     >
 
     <!-- DATA -->
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="20dp"
-        android:background="@drawable/round_corner"
-        android:gravity="center"
-        android:id="@+id/data"
-        android:layout_below="@+id/weatherdata">
+        android:background="@drawable/round_corner">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:id="@+id/data"
+            android:layout_gravity="center">
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="150dp"
+                android:src="@drawable/smart_farming"/>
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:background="@drawable/sensor_reading_corner"
-                android:gravity="center"
-                android:padding="20dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/baseline_thermostat_24">
-                </TextView>
-                <TextView
-                    android:id="@+id/temperature"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Temperature"
-                    android:textSize="22sp"
-                    android:textColor="#000000"/>
-                <TextView
-                    android:id="@+id/temperatureValueValue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="100"
-                    android:textSize="18sp"
-                    android:textColor="#000000"/>
-            </LinearLayout>
-            <Space
-                android:layout_width="8dp"
-                android:layout_height="match_parent" />
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:background="@drawable/sensor_reading_corner"
-                android:gravity="center"
-                android:padding="20dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/baseline_cloud_24">
-                </TextView>
-                <TextView
-                    android:id="@+id/Humidity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Humidity"
-                    android:textSize="22sp"
-                    android:textColor="#000000"
-                    android:textColorLink="@color/design_default_color_secondary" />
-                <TextView
-                    android:id="@+id/HumidityValue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="45"
-                    android:textSize="18sp"
-                    android:textColor="#000000"/>
-            </LinearLayout>
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:background="@drawable/sensor_reading_corner"
+                    android:gravity="center"
+                    android:padding="20dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/baseline_thermostat_24">
+                    </TextView>
+                    <TextView
+                        android:id="@+id/temperature"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Temperature"
+                        android:textSize="16sp"
+                        android:textColor="#000000"/>
+                    <TextView
+                        android:id="@+id/temperatureValueValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="100"
+                        android:textSize="14sp"
+                        android:textColor="#000000"/>
+                </LinearLayout>
+                <Space
+                    android:layout_width="8dp"
+                    android:layout_height="match_parent" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:background="@drawable/sensor_reading_corner"
+                    android:gravity="center"
+                    android:padding="20dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/baseline_cloud_24">
+                    </TextView>
+                    <TextView
+                        android:id="@+id/Humidity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Humidity"
+                        android:textSize="16sp"
+                        android:textColor="#000000"
+                        android:textColorLink="@color/design_default_color_secondary" />
+                    <TextView
+                        android:id="@+id/HumidityValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="45"
+                        android:textSize="14sp"
+                        android:textColor="#000000"/>
+                </LinearLayout>
 
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:layout_marginTop="20dp">
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:background="@drawable/sensor_reading_corner"
-                android:gravity="center"
-                android:padding="20dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/baseline_water_24">
-                </TextView>
-                <TextView
-                    android:id="@+id/soilMoisture"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Soil Moisture"
-                    android:textSize="22sp"
-                    android:textColor="#000000"/>
-                <TextView
-                    android:id="@+id/soilMoistureValueValue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="100"
-                    android:textSize="18sp"
-                    android:textColor="#000000"/>
             </LinearLayout>
-            <Space
-                android:layout_width="8dp"
-                android:layout_height="match_parent" />
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:background="@drawable/sensor_reading_corner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:gravity="center"
-                android:padding="20dp"
-                >
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/baseline_pest_control_rodent_24">
-                </TextView>
-                <TextView
-                    android:id="@+id/distance"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Distance"
-                    android:textSize="22sp"
-                    android:textColor="#000000"
-                    android:textColorLink="@color/design_default_color_secondary" />
-                <TextView
-                    android:id="@+id/distanceValue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="100 meter"
-                    android:textSize="18sp"
-                    android:textColor="#000000"/>
-            </LinearLayout>
+                android:layout_marginTop="20dp">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:background="@drawable/sensor_reading_corner"
+                    android:gravity="center"
+                    android:padding="20dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/baseline_water_24">
+                    </TextView>
+                    <TextView
+                        android:id="@+id/soilMoisture"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Soil Moisture"
+                        android:textSize="16sp"
+                        android:textColor="#000000"/>
+                    <TextView
+                        android:id="@+id/soilMoistureValueValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="100"
+                        android:textSize="14sp"
+                        android:textColor="#000000"/>
+                </LinearLayout>
+                <Space
+                    android:layout_width="8dp"
+                    android:layout_height="match_parent" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:background="@drawable/sensor_reading_corner"
+                    android:gravity="center"
+                    android:padding="20dp"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/baseline_pest_control_rodent_24">
+                    </TextView>
+                    <TextView
+                        android:id="@+id/distance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Distance"
+                        android:textSize="16sp"
+                        android:textColor="#000000"
+                        android:textColorLink="@color/design_default_color_secondary" />
+                    <TextView
+                        android:id="@+id/distanceValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="100 meter"
+                        android:textSize="14sp"
+                        android:textColor="#000000"/>
+                </LinearLayout>
 
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:layout_marginTop="20dp">
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:background="@drawable/sensor_reading_corner"
-                android:gravity="center"
-                android:padding="20dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/baseline_brightness_medium_24">
-                </TextView>
-                <TextView
-                    android:id="@+id/waterPH"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=" Water PH"
-                    android:textSize="22sp"
-                    android:textColor="#000000"/>
-                <TextView
-                    android:id="@+id/phValue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="PH"
-                    android:textSize="18sp"
-                    android:textColor="#000000"/>
             </LinearLayout>
-            <Space
-                android:layout_width="8dp"
-                android:layout_height="match_parent" />
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:background="@drawable/sensor_reading_corner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:gravity="center"
-                android:padding="20dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/baseline_sunny_snowing_24">
-                </TextView>
-                <TextView
-                    android:id="@+id/weather"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=" Weather "
-                    android:textSize="22sp"
-                    android:textColor="#000000"
-                    android:textColorLink="@color/design_default_color_secondary" />
-                <TextView
-                    android:id="@+id/weatherValue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="2mm"
-                    android:textSize="18sp"
-                    android:textColor="#000000"/>
-            </LinearLayout>
+                android:layout_marginTop="20dp">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:background="@drawable/sensor_reading_corner"
+                    android:gravity="center"
+                    android:padding="20dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/baseline_brightness_medium_24">
+                    </TextView>
+                    <TextView
+                        android:id="@+id/waterPH"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=" Water PH"
+                        android:textSize="16sp"
+                        android:textColor="#000000"/>
+                    <TextView
+                        android:id="@+id/phValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="PH"
+                        android:textSize="14sp"
+                        android:textColor="#000000"/>
+                </LinearLayout>
+                <Space
+                    android:layout_width="8dp"
+                    android:layout_height="match_parent" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:background="@drawable/sensor_reading_corner"
+                    android:gravity="center"
+                    android:padding="20dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/baseline_sunny_snowing_24">
+                    </TextView>
+                    <TextView
+                        android:id="@+id/weather"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=" Weather "
+                        android:textSize="16sp"
+                        android:textColor="#000000"
+                        android:textColorLink="@color/design_default_color_secondary" />
+                    <TextView
+                        android:id="@+id/weatherValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2mm"
+                        android:textSize="14sp"
+                        android:textColor="#000000"/>
+                </LinearLayout>
 
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
-    <!-- WEATHER FORECAST -->
+    </ScrollView>
+
+    <!-- WEATHER FORECAST
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -259,7 +268,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/temperatureTextView"
                 android:text="14°C"
-                android:textSize="30dp">
+                android:textSize="20dp">
             </TextView>
             <TextView
                 android:layout_width="wrap_content"
@@ -271,10 +280,10 @@
             </TextView>
         </LinearLayout>
     </LinearLayout>
-
+    -->
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
@@ -288,7 +297,7 @@
             android:background="@drawable/button"
             android:drawableLeft="@drawable/baseline_refresh_24"
             android:text="Update Data"
-            android:textSize="20sp" />
+            android:textSize="16sp" />
 
     </RelativeLayout>
 
