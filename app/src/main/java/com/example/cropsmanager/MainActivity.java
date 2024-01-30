@@ -1,14 +1,28 @@
 package com.example.cropsmanager;
 
-
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Context;
+import androidx.core.app.NotificationCompat;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.Toast;
+import android.content.Context;
+import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
+import org.eclipse.paho.client.mqttv3.MqttCallback;
+import org.eclipse.paho.client.mqttv3.MqttClient;
+import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
+import org.eclipse.paho.client.mqttv3.MqttException;
+import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
+import org.json.JSONException;
+import org.json.JSONObject;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -17,20 +31,103 @@ import android.widget.Toast;
 import com.example.cropsmanager.REST.RestRequests;
 import com.example.cropsmanager.REST.ServiceGenerator;
 import com.google.gson.JsonObject;
-
-import org.json.JSONObject;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 
 public class MainActivity extends AppCompatActivity {
+
+    final String subscriptionTopic = "v1/devices/me/rpc/request/+";
+    //v1/devices/me/rpc/request/+"
+    private final String username = "4BvQDriVmbEV28nxIMww";
+
+    private static final String BROKER_URL = "ssl://srv-iot.diatel.upm.es:8883";
+    private static final String CLIENT_ID = "ASP_DEMO_KIMIYA";
+
+    private MqttClient client;
+
+    int qos = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        try {
+            // Set up the persistence layer
+            MemoryPersistence persistence = new MemoryPersistence();
+
+            // Initialize the MQTT client
+            client = new MqttClient(BROKER_URL, CLIENT_ID, persistence);
+
+            // Set up the connection options
+            MqttConnectOptions connectOptions = new MqttConnectOptions();
+            //connectOptions.getKeepAliveInterval();
+            connectOptions.setAutomaticReconnect(true);
+            connectOptions.setCleanSession(true);
+            connectOptions.setUserName(username);
+
+            // Connect to the broker
+            client.connect(connectOptions);
+            Log.d("TAG", "connected !!! ");
+            Toast.makeText(this, "connected", Toast.LENGTH_SHORT).show();
+            // Subscribe to the topic
+            client.subscribe(subscriptionTopic, qos);
+            Log.d("TAG", "Subscribed to topic: " + subscriptionTopic);
+            Toast.makeText(this, "Subscribing to topic "+ subscriptionTopic, Toast.LENGTH_SHORT).show();
+
+            client.setCallback(new MqttCallback() {
+                @Override
+                public void connectionLost(Throwable cause) {
+                    Log.d("TAG", "Connection lost");
+                    try {
+                            client.connect();
+                            Log.d("TAG", "Reconnected to the broker");
+                    } catch (MqttException e) {
+                        Log.e("TAG", "Failed to reconnect to the broker: " + e.getMessage());
+                    }
+
+                }
+
+                @Override
+                public void messageArrived(String topic, MqttMessage message) throws Exception {
+                    Log.d("TAG", "A message arrived");
+                    // Process incoming message
+                    String payload = new String(message.getPayload());
+                    try {
+                        JSONObject jsonObject = new JSONObject(payload);
+                        Log.d("TAG", "payload is" + payload);
+
+                        // Show notification based on the method
+                        if (jsonObject.has("method") && jsonObject.getString("method").equals("alert_temperature")) {
+                            JSONObject params = jsonObject.getJSONObject("params");
+                            if (params.has("temperature")) {
+                                double temperature = params.getDouble("temperature");
+                                Log.d("TAG", "Temperature received: " + temperature);
+                                showNotification("Temperature Alert", "Temperature: " + temperature);
+                            }
+                        } else if (jsonObject.has("method") && jsonObject.getString("method").equals("alert_phvalue")) {
+                            JSONObject params = jsonObject.getJSONObject("params");
+                            if (params.has("phvalue")) {
+                                double phvalue = params.getDouble("phvalue");
+                                Log.d("TAG", "phvalue received: " + phvalue);
+                                showNotification("phvalue Alert", "phvalue: " + phvalue);
+                            }
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                @Override
+                public void deliveryComplete(IMqttDeliveryToken token) {
+                    Log.d("TAG", "Delivery complete");
+                }
+            });
+        } catch (MqttException e) {
+            e.printStackTrace();
+        }
         //check if the log in has been done
         SharedPreferences sharedPref =  PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String tokenString = sharedPref.getString("token", null);
@@ -52,11 +149,45 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+    @Override
+    protected void onDestroy() {
+        try {
+            Log.d("TAG", "DISCONNECTED");
+            client.disconnect();
+        } catch (MqttException e) {
+            e.printStackTrace();
+        }
+        super.onDestroy();
+    }
+    private void showNotification(String title, String message) {
+        NotificationManager notificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
 
-
-
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(
+                    "default",
+                    "Channel name",
+                    NotificationManager.IMPORTANCE_DEFAULT
+            );
+            notificationManager.createNotificationChannel(channel);
+        }
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "default")
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle(title)
+                .setContentText(message)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+        Intent notificationIntent = new Intent(this, MainActivity.class);
+        PendingIntent contentIntent = PendingIntent.getActivity(
+                this,
+                0,
+                notificationIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT
+        );
+        builder.setContentIntent(contentIntent);
+        // Add as notification
+        notificationManager.notify(0, builder.build());
+    }
     public void getSensorsValues(){
         RestRequests rest = ServiceGenerator.createService(RestRequests.class);
 
