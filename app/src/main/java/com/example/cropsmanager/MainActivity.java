@@ -11,6 +11,8 @@ import android.media.RingtoneManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.Toast;
 import android.content.Context;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
@@ -56,6 +58,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Switch buzzer_switch = findViewById(R.id.buzzer_switch);
+        Switch irrigation_switch = findViewById(R.id.Irrigation_switch);
 
         try {
             // Set up the persistence layer
@@ -160,6 +165,31 @@ public class MainActivity extends AppCompatActivity {
 
         b.callOnClick();
         getSensorsValues();
+
+        // Send Buzzer Commands
+        buzzer_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    // The toggle is enabled
+                    sendCommand("start_buzzer");
+                } else {
+                    // The toggle is disabled
+                    sendCommand("stop_buzzer");
+                }
+            }
+        });
+        // Send Irrigating Commands
+        irrigation_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    // The toggle is enabled
+                    sendCommand("start_irrigation");
+                } else {
+                    // The toggle is disabled
+                    sendCommand("stop_irrigation");
+                }
+            }
+        });
 
 
     }
@@ -294,5 +324,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
 
 }
