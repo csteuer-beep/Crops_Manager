@@ -26,6 +26,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -254,6 +255,41 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
                 Toast.makeText(getApplicationContext(), "Failure", Toast.LENGTH_SHORT).show();
+                Log.d("Failure", t.toString());
+            }
+        });
+    }
+
+    public void sendCommand(String command){
+        RestRequests rest = ServiceGenerator.createService(RestRequests.class);
+
+
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        String tokenString = sharedPref.getString("token", null);
+
+        JsonObject commandjson = new JsonObject();
+        commandjson.addProperty("command", command);
+        Call<Void> resp = rest.sendCommand(commandjson, tokenString);
+
+        resp.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if(response.code() == 200){
+                    try{
+                        Toast.makeText(getApplicationContext(), "Command sent successfully", Toast.LENGTH_SHORT).show();
+
+                    }catch (Exception ex){
+                        ex.printStackTrace();
+                    }
+
+                }else{
+                    Toast.makeText(getApplicationContext(), "Error sending the command", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Failure: check internet connection", Toast.LENGTH_SHORT).show();
                 Log.d("Failure", t.toString());
             }
         });

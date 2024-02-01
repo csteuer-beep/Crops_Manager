@@ -25,5 +25,9 @@ public interface RestRequests {
     @GET("v1/bfALtJHAbqRZoN4kV1Ib/attributes?sharedKeys=phvalue,precipitate,soilmoisture,temperature,temperatureaverage,humidity,distance")
     Call<JsonObject> getSensorValues(@Header("X-Authoritation") String token);
 
+    @Headers({"Accept: application/json", "Content-Type: application/json"})
+    @POST("v1/bfALtJHAbqRZoN4kV1Ib/telemetry")
+    Call<Void> sendCommand(@Body JsonObject command, @Header("X-Authoritation") String token);
+
 
 }
