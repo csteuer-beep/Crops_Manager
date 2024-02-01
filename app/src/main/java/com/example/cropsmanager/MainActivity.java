@@ -321,4 +321,105 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+
+
+
+    public void getThresholdsValues(){
+        RestRequests rest = ServiceGenerator.createService(RestRequests.class);
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        String tokenString = sharedPref.getString("token", null);
+        Call<JsonObject> resp = rest.getThresholdsValues(tokenString);
+        resp.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                if(response.code() == 200){
+                    try{
+                        JSONObject js = new JSONObject(response.body().toString());
+                        JSONObject values = js.getJSONObject("shared");
+                        /*
+                        EditText treshold_ph_maxTV = findViewById(R.id.temperatureValueValue);
+                        EditText treshold_ph_minTV = findViewById(R.id.soilMoistureValueValue);
+                        EditText treshold_soil_maxTV = findViewById(R.id.distanceValue);
+                        EditText treshold_soil_minTV = findViewById(R.id.phValue);
+                        EditText treshold_temp_maxTV = findViewById(R.id.HumidityValue);
+                        EditText treshold_temp_minTV = findViewById(R.id.weatherValue);
+
+                         */
+
+                        Double treshold_ph_max = values.getDouble("treshold_ph_max");
+                        Double treshold_ph_min = values.getDouble("treshold_ph_min");
+                        Double treshold_soil_max = values.getDouble("treshold_soil_max");
+                        Double treshold_soil_min = values.getDouble("treshold_soil_min");
+                        Double treshold_temp_max = values.getDouble("treshold_temp_max");
+                        Double treshold_temp_min = values.getDouble("treshold_temp_min");
+
+                        /*
+                        treshold_ph_maxTV.setText(String.format("%.1f", temperature) + " ºC");
+                        treshold_ph_minTV.setText(String.format("%.0f", soilmoisture) + " %");
+                        treshold_soil_maxTV.setText(String.format("%.1f", distance) + " cm");
+                        treshold_soil_minTV.setText(String.format("%.0f", phvalue) + " pH");
+                        treshold_temp_maxTV.setText(String.format("%.0f", humidity) + " %");
+                        treshold_temp_minTV.setText(String.format("%.1f", precipitation) + " mm");
+
+                         */
+
+                    }catch (Exception ex){
+                        ex.printStackTrace();
+                    }
+                }else{
+                    Toast.makeText(getApplicationContext(), "Error getting threshold values", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Failure: check internet connection", Toast.LENGTH_SHORT).show();
+                Log.d("Failure", t.toString());
+            }
+        });
+    }
+
+
+    public void sendThresholdsValues(float treshold_ph_min, float treshold_ph_max,float treshold_soil_min, float treshold_soil_max, float treshold_temp_min, float treshold_temp_max){
+        RestRequests rest = ServiceGenerator.createService(RestRequests.class);
+
+
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        String tokenString = sharedPref.getString("token", null);
+
+        JsonObject thresholdjson = new JsonObject();
+        thresholdjson.addProperty("treshold_ph_max", treshold_ph_max);
+        thresholdjson.addProperty("treshold_ph_min", treshold_ph_min);
+        thresholdjson.addProperty("treshold_soil_max", treshold_soil_max);
+        thresholdjson.addProperty("treshold_soil_min", treshold_soil_min);
+        thresholdjson.addProperty("treshold_temp_max", treshold_temp_max);
+        thresholdjson.addProperty("treshold_temp_min", treshold_temp_min);
+        Call<Void> resp = rest.sendThresholdsValues(thresholdjson, tokenString);
+
+        resp.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if(response.code() == 200){
+                    try{
+                        Toast.makeText(getApplicationContext(), "Command sent successfully", Toast.LENGTH_SHORT).show();
+
+                    }catch (Exception ex){
+                        ex.printStackTrace();
+                    }
+
+                }else{
+                    Toast.makeText(getApplicationContext(), "Error sending the command", Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Failure: check internet connection", Toast.LENGTH_SHORT).show();
+                Log.d("Failure", t.toString());
+            }
+        });
+    }
+
+
+
 }

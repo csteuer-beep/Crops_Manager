@@ -30,4 +30,12 @@ public interface RestRequests {
     Call<Void> sendCommand(@Body JsonObject command, @Header("X-Authoritation") String token);
 
 
+    @Headers({"Accept: application/json"})
+    @GET("v1/bfALtJHAbqRZoN4kV1Ib/attributes?sharedKeys=treshold_ph_max,treshold_ph_min,treshold_soil_max,treshold_soil_min,treshold_temp_max,treshold_temp_min")
+    Call<JsonObject> getThresholdsValues(@Header("X-Authoritation") String token);
+
+    @Headers({"Accept: application/json", "Content-Type: application/json"})
+    @POST("v1/bfALtJHAbqRZoN4kV1Ib/telemetry")
+    Call<Void> sendThresholdsValues(@Body JsonObject command, @Header("X-Authoritation") String token);
+
 }
