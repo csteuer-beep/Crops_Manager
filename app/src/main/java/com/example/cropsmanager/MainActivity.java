@@ -7,6 +7,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.media.RingtoneManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -101,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
                         Log.d("TAG", "payload is" + payload);
 
                         // Show notification based on the method
+                        // Temperature alert
                         if (jsonObject.has("method") && jsonObject.getString("method").equals("alert_temperature")) {
                             JSONObject params = jsonObject.getJSONObject("params");
                             if (params.has("temperature")) {
@@ -108,12 +110,23 @@ public class MainActivity extends AppCompatActivity {
                                 Log.d("TAG", "Temperature received: " + temperature);
                                 showNotification("Temperature Alert", "Temperature: " + temperature);
                             }
-                        } else if (jsonObject.has("method") && jsonObject.getString("method").equals("alert_phvalue")) {
+                        }
+                        //Water PH Value alert
+                        else if (jsonObject.has("method") && jsonObject.getString("method").equals("alert_phvalue")) {
                             JSONObject params = jsonObject.getJSONObject("params");
                             if (params.has("phvalue")) {
                                 double phvalue = params.getDouble("phvalue");
                                 Log.d("TAG", "phvalue received: " + phvalue);
                                 showNotification("phvalue Alert", "phvalue: " + phvalue);
+                            }
+                        }
+                        //Soil Moisture alert
+                        else if (jsonObject.has("method") && jsonObject.getString("method").equals("alert_soilmoisture")) {
+                            JSONObject params = jsonObject.getJSONObject("params");
+                            if (params.has("soilmoisture")) {
+                                double phvalue = params.getDouble("soilmoisture");
+                                Log.d("TAG", "soilmoisture received: " + phvalue);
+                                showNotification("soilmoisture Alert", "soilmoisture: " + phvalue);
                             }
                         }
                     } catch (JSONException e) {
@@ -168,15 +181,16 @@ public class MainActivity extends AppCompatActivity {
             NotificationChannel channel = new NotificationChannel(
                     "default",
                     "Channel name",
-                    NotificationManager.IMPORTANCE_DEFAULT
+                    NotificationManager.IMPORTANCE_HIGH
             );
             notificationManager.createNotificationChannel(channel);
         }
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "default")
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.drawable.baseline_dangerous_24)
                 .setContentTitle(title)
                 .setContentText(message)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
         Intent notificationIntent = new Intent(this, MainActivity.class);
         PendingIntent contentIntent = PendingIntent.getActivity(
                 this,
