@@ -11,6 +11,8 @@ import android.media.RingtoneManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.Toast;
 import android.content.Context;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
@@ -51,12 +53,15 @@ public class MainActivity extends AppCompatActivity {
     private MqttClient client;
 
     int qos = 1;
+    String buzzer;
+    String irrigation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        Switch buzzer_switch = findViewById(R.id.buzzer_switch);
+        Switch irrigation_switch = findViewById(R.id.Irrigation_switch);
         try {
             // Set up the persistence layer
             MemoryPersistence persistence = new MemoryPersistence();
@@ -70,16 +75,14 @@ public class MainActivity extends AppCompatActivity {
             connectOptions.setAutomaticReconnect(true);
             connectOptions.setCleanSession(true);
             connectOptions.setUserName(username);
-
             // Connect to the broker
             client.connect(connectOptions);
-            Log.d("TAG", "connected !!! ");
+            Log.d("TAG", "connected!!!");
             Toast.makeText(this, "connected", Toast.LENGTH_SHORT).show();
             // Subscribe to the topic
             client.subscribe(subscriptionTopic, qos);
             Log.d("TAG", "Subscribed to topic: " + subscriptionTopic);
             Toast.makeText(this, "Subscribing to topic "+ subscriptionTopic, Toast.LENGTH_SHORT).show();
-
             client.setCallback(new MqttCallback() {
                 @Override
                 public void connectionLost(Throwable cause) {
@@ -149,7 +152,6 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, login_activity.class);
             startActivity(intent);
         }
-
         Button b = findViewById(R.id.updateButton);
         b.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -157,11 +159,32 @@ public class MainActivity extends AppCompatActivity {
                 getSensorsValues();
             }
         });
-
         b.callOnClick();
         getSensorsValues();
-
-
+        // Send Buzzer Commands
+        buzzer_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    // The toggle is enabled
+                    sendCommand("start_buzzer");
+                } else {
+                    // The toggle is disabled
+                    sendCommand("stop_buzzer");
+                }
+            }
+        });
+        // Send Irrigating Commands
+        irrigation_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    // The toggle is enabled
+                    sendCommand("start_irrigation");
+                } else {
+                    // The toggle is disabled
+                    sendCommand("stop_irrigation");
+                }
+            }
+        });
     }
     @Override
     protected void onDestroy() {
@@ -176,8 +199,6 @@ public class MainActivity extends AppCompatActivity {
     private void showNotification(String title, String message) {
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(
                     "default",
@@ -205,19 +226,14 @@ public class MainActivity extends AppCompatActivity {
     }
     public void getSensorsValues(){
         RestRequests rest = ServiceGenerator.createService(RestRequests.class);
-
-
         SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
         String tokenString = sharedPref.getString("token", null);
-
-
         Call<JsonObject> resp = rest.getSensorValues(tokenString);
         resp.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if(response.code() == 200){
                     try{
-
                         JSONObject js = new JSONObject(response.body().toString());
                         JSONObject values = js.getJSONObject("shared");
 
@@ -235,6 +251,20 @@ public class MainActivity extends AppCompatActivity {
                         Double humidity = values.getDouble("humidity");
                         Double precipitation = values.getDouble("precipitate");
 
+                        //Recieving Status of Irrigation system and the Buzzer
+
+                         buzzer = values.getString("BuzzerSystem");
+                         irrigation = values.getString("IrrigationSystem");
+
+                        Switch buzzer_switch = findViewById(R.id.buzzer_switch);
+                        Switch irrigation_switch = findViewById(R.id.Irrigation_switch);
+
+                        if (buzzer.equals("start_buzzer")){
+                            buzzer_switch.setChecked(true);
+                        }if (irrigation.equals("start_irrigation")){
+                            irrigation_switch.setChecked(true);
+                        }
+
                         temperatureTV.setText(String.format("%.1f", temperature) + " ºC");
                         soilmoistureTV.setText(String.format("%.0f", soilmoisture) + " %");
                         distanceTV.setText(String.format("%.1f", distance) + " cm");
@@ -242,11 +272,9 @@ public class MainActivity extends AppCompatActivity {
                         humidityTV.setText(String.format("%.0f", humidity) + " %");
                         precipitationsTV.setText(String.format("%.1f", precipitation) + " mm");
 
-
                     }catch (Exception ex){
                         ex.printStackTrace();
                     }
-
                 }else{
                     Toast.makeText(getApplicationContext(), "Error getting values", Toast.LENGTH_SHORT).show();
                 }
@@ -286,7 +314,6 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Error sending the command", Toast.LENGTH_SHORT).show();
                 }
             }
-
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
                 Toast.makeText(getApplicationContext(), "Failure: check internet connection", Toast.LENGTH_SHORT).show();
@@ -294,5 +321,4 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
 }

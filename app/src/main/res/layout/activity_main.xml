@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    >
+    android:gravity="center">
     <!-- DATA -->
         <LinearLayout
             android:layout_width="match_parent"
@@ -11,12 +11,37 @@
             android:orientation="vertical"
             android:padding="20dp"
             android:id="@+id/data"
-            android:layout_gravity="center">
+            android:gravity="center">
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="wrap_content"
-                android:layout_height="100dp"
+                android:layout_height="120dp"
                 android:src="@drawable/smart_farming"/>
+            <LinearLayout
+                android:id="@+id/weatherdata"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="20dp">
+                <Switch
+                    android:id="@+id/buzzer_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Buzzer"
+                    android:textSize="20dp"/>
+                <Space
+                    android:layout_width="10dp"
+                    android:layout_height="match_parent" />
+                <Switch
+                    android:id="@+id/Irrigation_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Irrigation"
+                    android:textSize="20dp"/>
+            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -151,7 +176,6 @@
                         android:textSize="14sp"
                         android:textColor="#000000"/>
                 </LinearLayout>
-
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -222,59 +246,6 @@
 
             </LinearLayout>
         </LinearLayout>
-
-    <!-- WEATHER FORECAST
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@id/weatherdata"
-        android:padding="20dp"
-        android:orientation="horizontal">
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/weatherIcon"
-                android:drawableLeft="@drawable/baseline_cloud_24">
-            </TextView>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/weatherCondition"
-                android:text="Raining"
-                android:textSize="18sp"
-                android:textColor="#000000">
-            </TextView>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/temperatureTextView"
-                android:text="14°C"
-                android:textSize="20dp">
-            </TextView>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/dateTextView"
-                android:text="Now"
-                android:textSize="18sp"
-                android:textColor="#000000">
-            </TextView>
-        </LinearLayout>
-    </LinearLayout>
-    -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -292,7 +263,5 @@
             android:drawableLeft="@drawable/baseline_refresh_24"
             android:text="Update Data"
             android:textSize="16sp" />
-
     </RelativeLayout>
-
 </RelativeLayout>

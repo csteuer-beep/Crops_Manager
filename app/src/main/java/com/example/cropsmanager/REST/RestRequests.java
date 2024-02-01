@@ -22,7 +22,7 @@ public interface RestRequests {
     Call<JsonObject> getToken(@Body JsonObject user);
 
     @Headers({"Accept: application/json"})
-    @GET("v1/bfALtJHAbqRZoN4kV1Ib/attributes?sharedKeys=phvalue,precipitate,soilmoisture,temperature,temperatureaverage,humidity,distance")
+    @GET("v1/bfALtJHAbqRZoN4kV1Ib/attributes?sharedKeys=phvalue,precipitate,soilmoisture,temperature,temperatureaverage,humidity,distance,BuzzerSystem,IrrigationSystem")
     Call<JsonObject> getSensorValues(@Header("X-Authoritation") String token);
 
     @Headers({"Accept: application/json", "Content-Type: application/json"})
