@@ -29,5 +29,9 @@ public interface RestRequests {
     @POST("v1/bfALtJHAbqRZoN4kV1Ib/telemetry")
     Call<Void> sendCommand(@Body JsonObject command, @Header("X-Authoritation") String token);
 
+    @Headers({"Accept: application/json", "Content-Type: application/json"})
+    @POST("v1/bfALtJHAbqRZoN4kV1Ib/telemetry")
+    Call<Void> sendIrrigationTime(@Body JsonObject seconsds, @Header("X-Authoritation") String token);
+
 
 }

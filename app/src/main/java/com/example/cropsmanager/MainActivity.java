@@ -2,17 +2,24 @@ package com.example.cropsmanager;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
+
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.RingtoneManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.widget.CompoundButton;
 import android.widget.Switch;
+import android.widget.TimePicker;
 import android.widget.Toast;
 import android.content.Context;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
@@ -40,8 +47,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import java.util.Calendar;
 
-public class MainActivity extends AppCompatActivity {
+
+public class MainActivity extends AppCompatActivity implements TimePickerFragment.TimePickerListener  {
 
     final String subscriptionTopic = "v1/devices/me/rpc/request/+";
     //v1/devices/me/rpc/request/+"
@@ -178,7 +187,8 @@ public class MainActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     // The toggle is enabled
-                    sendCommand("start_irrigation");
+                    //sendCommand("start_irrigation");
+                    showTimePickerDialog();
                 } else {
                     // The toggle is disabled
                     sendCommand("stop_irrigation");
@@ -321,4 +331,58 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+
+
+
+    private void showTimePickerDialog() {
+        TimePickerFragment timePickerFragment = new TimePickerFragment();
+        timePickerFragment.setListener(this);
+        timePickerFragment.show(getSupportFragmentManager(), "timePicker");
+    }
+
+    @Override
+    public void onTimeSet(int minutes, int seconds) {
+        // Handle the selected time (hours, minutes, seconds)
+        // Update your UI or perform any other actions
+        sendIrrigationTime(minutes* 60 + seconds);
+
+    }
+
+    public void sendIrrigationTime(int seconds){
+        RestRequests rest = ServiceGenerator.createService(RestRequests.class);
+
+
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        String tokenString = sharedPref.getString("token", null);
+
+        JsonObject commandjson = new JsonObject();
+        commandjson.addProperty("command", "start_irrigation");
+        commandjson.addProperty("seconds", seconds);
+        Call<Void> resp = rest.sendCommand(commandjson, tokenString);
+
+        resp.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if(response.code() == 200){
+                    try{
+                        Toast.makeText(getApplicationContext(), "Irrigation time sent successfully", Toast.LENGTH_SHORT).show();
+
+                    }catch (Exception ex){
+                        ex.printStackTrace();
+                    }
+
+                }else{
+                    Toast.makeText(getApplicationContext(), "Error sending the irrigation time", Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Failure: check internet connection", Toast.LENGTH_SHORT).show();
+                Log.d("Failure", t.toString());
+            }
+        });
+    }
+
+
 }
