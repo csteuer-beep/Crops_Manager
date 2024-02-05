@@ -22,9 +22,6 @@
             android:exported="false" />
         <activity
             android:name=".login_activity"
-            android:exported="false" />
-        <activity
-            android:name=".Login_activity"
             android:exported="false"
             android:label="@string/title_activity_login"
             android:theme="@style/Theme.CropsManager" />

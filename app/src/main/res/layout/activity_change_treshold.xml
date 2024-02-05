@@ -5,9 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Change_Treshold">
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
         android:gravity="center"
         android:padding="20dp">
         <TextView
@@ -17,14 +19,6 @@
             android:textSize="25dp"
             android:textColor="#000000"
             android:layout_marginBottom="10dp"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:padding="20dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -33,7 +27,6 @@
             android:gravity="center"
             android:layout_marginBottom="10dp">
             <TextView
-                android:id="@+id/temperature"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -42,6 +35,7 @@
                 android:textColor="#000000"
                 android:layout_marginRight="10dp"/>
             <EditText
+                android:id="@+id/temperatureMin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -49,16 +43,19 @@
                 android:inputType="number"
                 android:background="@drawable/sensor_reading_corner"
                 android:padding="20dp"
-                android:layout_marginRight="10dp">
+                android:layout_marginRight="10dp"
+                android:textAlignment="center">
             </EditText>
             <EditText
+                android:id="@+id/temperatureMax"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:hint="Maximum"
                 android:inputType="number"
                 android:background="@drawable/sensor_reading_corner"
-                android:padding="20dp">
+                android:padding="20dp"
+                android:textAlignment="center">
             </EditText>
         </LinearLayout>
 
@@ -69,7 +66,6 @@
             android:gravity="center"
             android:layout_marginBottom="10dp">
             <TextView
-                android:id="@+id/PH"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -78,6 +74,7 @@
                 android:textColor="#000000"
                 android:layout_marginRight="10dp"/>
             <EditText
+                android:id="@+id/minPH"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -85,17 +82,19 @@
                 android:inputType="number"
                 android:background="@drawable/sensor_reading_corner"
                 android:padding="20dp"
-                android:layout_marginRight="10dp">
+                android:layout_marginRight="10dp"
+                android:textAlignment="center">
             </EditText>
             <EditText
+                android:id="@+id/maxPH"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
                 android:layout_weight="1"
                 android:hint="Maximum"
                 android:inputType="number"
                 android:background="@drawable/sensor_reading_corner"
-                android:padding="20dp">
+                android:padding="20dp"
+                android:textAlignment="center">
             </EditText>
         </LinearLayout>
 
@@ -106,7 +105,6 @@
             android:gravity="center"
             android:layout_marginBottom="10dp">
             <TextView
-                android:id="@+id/Soilmoisture"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Soil Moisture"
@@ -114,6 +112,7 @@
                 android:textColor="#000000"
                 android:layout_marginRight="10dp"/>
             <EditText
+                android:id="@+id/minSoilmoisture"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -121,26 +120,46 @@
                 android:inputType="number"
                 android:background="@drawable/sensor_reading_corner"
                 android:padding="20dp"
-                android:layout_marginRight="10dp">
+                android:layout_marginRight="10dp"
+                android:textAlignment="center">
             </EditText>
             <EditText
+                android:id="@+id/maxSoilmoisture"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:hint="Maximum"
                 android:inputType="number"
                 android:background="@drawable/sensor_reading_corner"
-                android:padding="20dp">
+                android:padding="20dp"
+                android:textAlignment="center">
             </EditText>
         </LinearLayout>
-        <Button
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="submit changes"
-            android:background="@drawable/button"
-            android:drawableLeft="@drawable/baseline_done_24">
+            android:gravity="center">
+            <Button
+                android:id="@+id/returnBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Return"
+                android:textColor="#673AB7"
+                android:background="@drawable/border_button"
+                android:drawableLeft="@drawable/baseline_arrow_back_24"
+                android:layout_marginRight="10dp">
+            </Button>
+            <Button
+                android:id="@+id/submitBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="submit changes"
+                android:background="@drawable/button"
+                android:drawableLeft="@drawable/baseline_done_24">
+            </Button>
 
-        </Button>
+        </LinearLayout>
+
 
     </LinearLayout>
 

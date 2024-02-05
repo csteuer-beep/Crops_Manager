@@ -11,7 +11,7 @@
             android:orientation="vertical"
             android:padding="20dp"
             android:id="@+id/data"
-            android:gravity="center">
+            android:gravity="top">
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="wrap_content"
@@ -246,22 +246,36 @@
 
             </LinearLayout>
         </LinearLayout>
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp">
+        android:layout_marginBottom="20dp"
+        android:gravity="bottom">
         <Button
             android:id="@+id/updateButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:background="@drawable/button"
             android:drawableLeft="@drawable/baseline_refresh_24"
             android:text="Update Data"
             android:textSize="16sp" />
-    </RelativeLayout>
+        <Space
+            android:layout_width="8dp"
+            android:layout_height="match_parent" />
+        <Button
+            android:id="@+id/nextPage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/button"
+            android:text="Change Threshold"
+            android:textSize="16sp" />
+    </LinearLayout>
 </RelativeLayout>
