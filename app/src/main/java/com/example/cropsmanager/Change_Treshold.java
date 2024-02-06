@@ -27,12 +27,7 @@ public class Change_Treshold extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        EditText minSoilMoisture = findViewById(R.id.minSoilmoisture);
-        EditText maxSoilMoisture= findViewById(R.id.maxSoilmoisture);
-        EditText minPH = findViewById(R.id.minPH);
-        EditText maxPH = findViewById(R.id.maxPH);
-        EditText minTemp = findViewById(R.id.temperatureMin);
-        EditText maxTemp = findViewById(R.id.temperatureMax);
+
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_treshold);
@@ -45,8 +40,16 @@ public class Change_Treshold extends AppCompatActivity {
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                EditText minSoilMoisture = findViewById(R.id.minSoilmoisture);
+                EditText maxSoilMoisture= findViewById(R.id.maxSoilmoisture);
+                EditText minPH = findViewById(R.id.minPH);
+                EditText maxPH = findViewById(R.id.maxPH);
+                EditText minTemp = findViewById(R.id.temperatureMin);
+                EditText maxTemp = findViewById(R.id.temperatureMax);
+
                 // Soil & Moisture
-                String minSoilMoistureString = minSoilMoisture .getText().toString();
+                String minSoilMoistureString = minSoilMoisture.getText().toString();
                 Float minSoilMoistureValue = Float.parseFloat(minSoilMoistureString);
                 String maxSoilMoistureString = maxSoilMoisture.getText().toString();
                 Float maxSoilMoistureValue = Float.parseFloat(maxSoilMoistureString);
@@ -100,14 +103,14 @@ public class Change_Treshold extends AppCompatActivity {
                         EditText maxTemp = findViewById(R.id.temperatureMax);
 
 
-                        maxSoilMoisture.setText(String.format("%.1f", treshold_soil_max) + " cm");
-                        minSoilMoisture.setText(String.format("%.0f", treshold_soil_min) + " pH");
+                        maxSoilMoisture.setText(String.format("%.1f", treshold_soil_max));
+                        minSoilMoisture.setText(String.format("%.0f", treshold_soil_min));
 
-                        minPH.setText(String.format("%.1f", treshold_ph_max) + " ºC");
-                        maxPH.setText(String.format("%.0f", treshold_ph_min) + " %");
+                        maxPH.setText(String.format("%.1f", treshold_ph_max));
+                        minPH.setText(String.format("%.0f", treshold_ph_min));
 
-                        maxTemp.setText(String.format("%.0f", treshold_temp_max) + " %");
-                        minTemp.setText(String.format("%.1f", treshold_temp_min) + " mm");
+                        maxTemp.setText(String.format("%.0f", treshold_temp_max));
+                        minTemp.setText(String.format("%.1f", treshold_temp_min));
 
 
 
@@ -118,7 +121,6 @@ public class Change_Treshold extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Error getting threshold values", Toast.LENGTH_SHORT).show();
                 }
             }
-
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
                 Toast.makeText(getApplicationContext(), "Failure: check internet connection", Toast.LENGTH_SHORT).show();
@@ -149,11 +151,9 @@ public class Change_Treshold extends AppCompatActivity {
                 if(response.code() == 200){
                     try{
                         Toast.makeText(getApplicationContext(), "Command sent successfully", Toast.LENGTH_SHORT).show();
-
                     }catch (Exception ex){
                         ex.printStackTrace();
                     }
-
                 }else{
                     Toast.makeText(getApplicationContext(), "Error sending the command", Toast.LENGTH_SHORT).show();
                 }
