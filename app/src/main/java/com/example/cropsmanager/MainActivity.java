@@ -52,6 +52,7 @@ import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity implements TimePickerFragment.TimePickerListener  {
 
+    private boolean isUserInitiatedChange = false;
     final String subscriptionTopic = "v1/devices/me/rpc/request/+";
     //v1/devices/me/rpc/request/+"
     private final String username = "4BvQDriVmbEV28nxIMww";
@@ -71,6 +72,7 @@ public class MainActivity extends AppCompatActivity implements TimePickerFragmen
         setContentView(R.layout.activity_main);
         Switch buzzer_switch = findViewById(R.id.buzzer_switch);
         Switch irrigation_switch = findViewById(R.id.Irrigation_switch);
+
         try {
             // Set up the persistence layer
             MemoryPersistence persistence = new MemoryPersistence();
@@ -161,6 +163,8 @@ public class MainActivity extends AppCompatActivity implements TimePickerFragmen
             Intent intent = new Intent(this, login_activity.class);
             startActivity(intent);
         }
+
+
         Button b = findViewById(R.id.updateButton);
         b.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -183,7 +187,28 @@ public class MainActivity extends AppCompatActivity implements TimePickerFragmen
                 }
             }
         });
+
+
         // Send Irrigating Commands
+        irrigation_switch.setOnCheckedChangeListener(null); // Zuerst Listener entfernen, um zu verhindern, dass onCheckedChanged aufgerufen wird
+        irrigation_switch.setChecked(isUserInitiatedChange ); // Setze den initialen Wert des Switches
+        irrigation_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isUserInitiatedChange) {
+                    if (isChecked) {
+                        // The toggle is enabled
+                        //sendCommand("start_irrigation");
+                        showTimePickerDialog();
+                    } else {
+                        // The toggle is disabled
+                        sendCommand("stop_irrigation");
+                    }
+                }
+                isUserInitiatedChange = true; // Ab hier wird angenommen, dass alle Änderungen vom Benutzer initiiert werden
+            }
+        });
+
+         /*
         irrigation_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
@@ -195,7 +220,9 @@ public class MainActivity extends AppCompatActivity implements TimePickerFragmen
                     sendCommand("stop_irrigation");
                 }
             }
-        });
+        });*/
+
+
         Button treshholdActivity = findViewById(R.id.nextPage);
         treshholdActivity.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -346,9 +373,6 @@ public class MainActivity extends AppCompatActivity implements TimePickerFragmen
             }
         });
     }
-
-
-
 
     private void showTimePickerDialog() {
         TimePickerFragment timePickerFragment = new TimePickerFragment();
