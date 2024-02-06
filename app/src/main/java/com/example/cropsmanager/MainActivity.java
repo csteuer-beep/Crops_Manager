@@ -190,8 +190,8 @@ public class MainActivity extends AppCompatActivity implements TimePickerFragmen
 
 
         // Send Irrigating Commands
-        irrigation_switch.setOnCheckedChangeListener(null); // Zuerst Listener entfernen, um zu verhindern, dass onCheckedChanged aufgerufen wird
-        irrigation_switch.setChecked(isUserInitiatedChange ); // Setze den initialen Wert des Switches
+        irrigation_switch.setOnCheckedChangeListener(null); // remove listener to prevent onCheckedChanged from being called
+        irrigation_switch.setChecked(isUserInitiatedChange ); // Set the initial value of the switch
         irrigation_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isUserInitiatedChange) {
@@ -204,24 +204,9 @@ public class MainActivity extends AppCompatActivity implements TimePickerFragmen
                         sendCommand("stop_irrigation");
                     }
                 }
-                isUserInitiatedChange = true; // Ab hier wird angenommen, dass alle Änderungen vom Benutzer initiiert werden
+                isUserInitiatedChange = true;
             }
         });
-
-         /*
-        irrigation_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    // The toggle is enabled
-                    //sendCommand("start_irrigation");
-                    showTimePickerDialog();
-                } else {
-                    // The toggle is disabled
-                    sendCommand("stop_irrigation");
-                }
-            }
-        });*/
-
 
         Button treshholdActivity = findViewById(R.id.nextPage);
         treshholdActivity.setOnClickListener(new View.OnClickListener() {
