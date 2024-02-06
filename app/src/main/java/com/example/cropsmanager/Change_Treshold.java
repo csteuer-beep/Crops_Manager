@@ -48,22 +48,34 @@ public class Change_Treshold extends AppCompatActivity {
                 EditText minTemp = findViewById(R.id.temperatureMin);
                 EditText maxTemp = findViewById(R.id.temperatureMax);
 
-                // Soil & Moisture
-                String minSoilMoistureString = minSoilMoisture.getText().toString();
-                Float minSoilMoistureValue = Float.parseFloat(minSoilMoistureString);
-                String maxSoilMoistureString = maxSoilMoisture.getText().toString();
-                Float maxSoilMoistureValue = Float.parseFloat(maxSoilMoistureString);
-                // PH
-                String minPHString = minPH.getText().toString();
-                Float minPHValue = Float.parseFloat(minPHString);
-                String maxPHString = maxPH.getText().toString();
-                Float maxPHValue = Float.parseFloat(maxPHString);
-                // Temperature
-                String minTempString = minTemp.getText().toString();
-                Float minTempValue = Float.parseFloat(minTempString);
-                String maxTempString = maxTemp.getText().toString();
-                Float maxTempValue = Float.parseFloat(maxTempString);
-                sendThresholdsValues(minPHValue,maxPHValue,minSoilMoistureValue,maxSoilMoistureValue,minTempValue,maxTempValue);
+                try {
+                    // Soil & Moisture
+                    String minSoilMoistureString = minSoilMoisture.getText().toString();
+                    minSoilMoistureString = minSoilMoistureString.replace(',', '.');
+                    Float minSoilMoistureValue = Float.parseFloat(minSoilMoistureString);
+                    String maxSoilMoistureString = maxSoilMoisture.getText().toString();
+                    maxSoilMoistureString = maxSoilMoistureString.replace(',', '.');
+                    Float maxSoilMoistureValue = Float.parseFloat(maxSoilMoistureString);
+                    // PH
+                    String minPHString = minPH.getText().toString();
+                    minPHString = minPHString.replace(',', '.');
+                    Float minPHValue = Float.parseFloat(minPHString);
+                    String maxPHString = maxPH.getText().toString();
+                    maxPHString = maxPHString.replace(',', '.');
+                    Float maxPHValue = Float.parseFloat(maxPHString);
+                    // Temperature
+                    String minTempString = minTemp.getText().toString();
+                    minTempString = minTempString.replace(',', '.');
+                    Float minTempValue = Float.parseFloat(minTempString);
+                    String maxTempString = maxTemp.getText().toString();
+                    maxTempString = maxTempString.replace(',', '.');
+                    Float maxTempValue = Float.parseFloat(maxTempString);
+                    sendThresholdsValues(minPHValue,maxPHValue,minSoilMoistureValue,maxSoilMoistureValue,minTempValue,maxTempValue);
+                } catch (Exception e) {
+                    Toast.makeText(getApplicationContext(), "Invalid input", Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();  // Print the stack trace or log the exception
+                }
+
             }
         });
 
