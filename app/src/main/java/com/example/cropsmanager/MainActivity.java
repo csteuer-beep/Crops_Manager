@@ -170,13 +170,14 @@ public class MainActivity extends AppCompatActivity implements TimePickerFragmen
         });
         b.callOnClick();
         getSensorsValues();
+
         // Send Buzzer Commands
         buzzer_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     // The toggle is enabled
                     sendCommand("start_buzzer");
-                } else {
+                }else {
                     // The toggle is disabled
                     sendCommand("stop_buzzer");
                 }
@@ -192,6 +193,20 @@ public class MainActivity extends AppCompatActivity implements TimePickerFragmen
                 } else {
                     // The toggle is disabled
                     sendCommand("stop_irrigation");
+                }
+            }
+        });
+        Button treshholdActivity = findViewById(R.id.nextPage);
+        treshholdActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    Intent intent = new Intent(MainActivity.this, Change_Treshold.class);
+                    startActivity(intent);
+                    Log.e("TAG", "Activity started");
+                } catch (Exception e) {
+                    e.printStackTrace(); // Print the stack trace of the exception
+                    Log.e("MainActivity", "Error starting Change_Treshold activity: " + e.getMessage());
                 }
             }
         });

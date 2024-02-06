@@ -7,15 +7,15 @@
     <!-- DATA -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="20dp"
             android:id="@+id/data"
-            android:gravity="center">
+            android:gravity="top">
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="wrap_content"
-                android:layout_height="120dp"
+                android:layout_height="100dp"
                 android:src="@drawable/smart_farming"/>
             <LinearLayout
                 android:id="@+id/weatherdata"
@@ -23,14 +23,16 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:padding="20dp">
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="10dp">
                 <Switch
                     android:id="@+id/buzzer_switch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Buzzer"
-                    android:textSize="20dp"/>
+                    android:textSize="16dp"/>
                 <Space
                     android:layout_width="10dp"
                     android:layout_height="match_parent" />
@@ -40,7 +42,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Irrigation"
-                    android:textSize="20dp"/>
+                    android:textSize="16dp"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -107,14 +109,13 @@
                         android:textSize="14sp"
                         android:textColor="#000000"/>
                 </LinearLayout>
-
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="5dp">
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -182,7 +183,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="5dp">
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -246,22 +247,36 @@
 
             </LinearLayout>
         </LinearLayout>
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp">
+        android:layout_marginBottom="20dp"
+        android:gravity="bottom">
         <Button
             android:id="@+id/updateButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:background="@drawable/button"
             android:drawableLeft="@drawable/baseline_refresh_24"
             android:text="Update Data"
-            android:textSize="16sp" />
-    </RelativeLayout>
+            android:textSize="12sp" />
+        <Space
+            android:layout_width="5dp"
+            android:layout_height="match_parent" />
+        <Button
+            android:id="@+id/nextPage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/button"
+            android:text="Change Threshold"
+            android:textSize="12sp" />
+    </LinearLayout>
 </RelativeLayout>
