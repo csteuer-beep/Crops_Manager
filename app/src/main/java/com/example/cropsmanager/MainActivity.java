@@ -261,47 +261,50 @@ public class MainActivity extends AppCompatActivity implements TimePickerFragmen
         // Add as notification
         notificationManager.notify(0, builder.build());
     }
-    public void getSensorsValues(){
+    public void getSensorsValues(){ //executed when application is open and when update button is pressed
+        //get instance of the rest service class
         RestRequests rest = ServiceGenerator.createService(RestRequests.class);
+        //get user token to add in the request
         SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
         String tokenString = sharedPref.getString("token", null);
+        //execute the rest function to get the values from the thingsboard
         Call<JsonObject> resp = rest.getSensorValues(tokenString);
         resp.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if(response.code() == 200){
+                    //if it was a successfully request
                     try{
+                        // get json in the body of the response message
                         JSONObject js = new JSONObject(response.body().toString());
                         JSONObject values = js.getJSONObject("shared");
-
+                        //get the widget objects
                         TextView temperatureTV = findViewById(R.id.temperatureValueValue);
                         TextView soilmoistureTV = findViewById(R.id.soilMoistureValueValue);
                         TextView distanceTV = findViewById(R.id.distanceValue);
                         TextView phvalueTV = findViewById(R.id.phValue);
                         TextView humidityTV = findViewById(R.id.HumidityValue);
                         TextView precipitationsTV = findViewById(R.id.weatherValue);
-
+                        //get values form the json
                         Double temperature = values.getDouble("temperature");
                         Double soilmoisture = values.getDouble("soilmoisture");
                         Double distance = values.getDouble("distance");
                         Double phvalue = values.getDouble("phvalue");
                         Double humidity = values.getDouble("humidity");
                         Double precipitation = values.getDouble("precipitate");
-
                         //Recieving Status of Irrigation system and the Buzzer
-
                          buzzer = values.getString("BuzzerSystem");
                          irrigation = values.getString("IrrigationSystem");
-
+                         //get switch buttons instance
                         Switch buzzer_switch = findViewById(R.id.buzzer_switch);
                         Switch irrigation_switch = findViewById(R.id.Irrigation_switch);
-
+                        //set state to switch buttons
                         if (buzzer.equals("start_buzzer")){
                             buzzer_switch.setChecked(true);
                         }if (irrigation.equals("start_irrigation")){
                             irrigation_switch.setChecked(true);
                         }
-
+                        //set measured values in the interface
                         temperatureTV.setText(String.format("%.1f", temperature) + " ºC");
                         soilmoistureTV.setText(String.format("%.1f", soilmoisture) + " %");
                         distanceTV.setText(String.format("%.1f", distance) + " cm");
@@ -326,20 +329,22 @@ public class MainActivity extends AppCompatActivity implements TimePickerFragmen
     }
 
     public void sendCommand(String command){
+        //get instance of the rest service class
         RestRequests rest = ServiceGenerator.createService(RestRequests.class);
-
-
+        //get user token to add in the request
         SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
         String tokenString = sharedPref.getString("token", null);
-
+        //create json to send the command
         JsonObject commandjson = new JsonObject();
         commandjson.addProperty("command", command);
+        //execute the rest function to send the command to thingsboard
         Call<Void> resp = rest.sendCommand(commandjson, tokenString);
 
         resp.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if(response.code() == 200){
+                    //if it was a successfully request
                     try{
                         Toast.makeText(getApplicationContext(), "Command sent successfully", Toast.LENGTH_SHORT).show();
 
@@ -374,21 +379,23 @@ public class MainActivity extends AppCompatActivity implements TimePickerFragmen
     }
 
     public void sendIrrigationTime(int seconds){
+        //get instance of the rest service class
         RestRequests rest = ServiceGenerator.createService(RestRequests.class);
-
-
+        //get user token to add in the request
         SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
         String tokenString = sharedPref.getString("token", null);
-
+        //create json to send the command
         JsonObject commandjson = new JsonObject();
         commandjson.addProperty("command", "start_irrigation");
         commandjson.addProperty("seconds", seconds);
+        //execute the rest function to send the irrigation time command to thingsboard
         Call<Void> resp = rest.sendCommand(commandjson, tokenString);
 
         resp.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if(response.code() == 200){
+                    //if it was a successfully request
                     try{
                         Toast.makeText(getApplicationContext(), "Irrigation time sent successfully", Toast.LENGTH_SHORT).show();
 

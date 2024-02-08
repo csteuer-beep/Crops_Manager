@@ -44,17 +44,14 @@ public class login_activity extends AppCompatActivity {
 
 
     public void login(){ //executed when login button is pressed
-
         //get instance of the rest service class
         RestRequests rest = ServiceGenerator.createService(RestRequests.class);
-
         //create json to send the user and password
         JsonObject user = new JsonObject();
         EditText username = findViewById(R.id.username);
         EditText password = findViewById(R.id.password);
         user.addProperty("username", username.getText().toString());
         user.addProperty("password", password.getText().toString());
-
         //execute the rest function to login
         Call<JsonObject> resp = rest.getToken(user);
         resp.enqueue(new Callback<JsonObject>() {
@@ -96,9 +93,6 @@ public class login_activity extends AppCompatActivity {
                             .setNegativeButton("Close", null)
                             .setIcon(android.R.drawable.ic_dialog_alert)
                             .show();
-
-
-                    //Toast.makeText(getApplicationContext(), "Error code " + response.code() +": " + response.errorBody(), Toast.LENGTH_SHORT).show();
                 }
             }
 

@@ -87,40 +87,42 @@ public class Change_Treshold extends AppCompatActivity {
             }
         });
     }
-    public void getThresholdsValues(){
+    public void getThresholdsValues(){ //executed when thresholds activity is created
+        //get instance of the rest service class
         RestRequests rest = ServiceGenerator.createService(RestRequests.class);
+        //get user token to add in the request
         SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
         String tokenString = sharedPref.getString("token", null);
+        //execute the rest function to get the threshold values from the thingsboard
         Call<JsonObject> resp = rest.getThresholdsValues(tokenString);
         resp.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if(response.code() == 200){
+                    //if it was a successfully request
                     try{
+                        // get json in the body of the response message
                         JSONObject js = new JSONObject(response.body().toString());
                         JSONObject values = js.getJSONObject("shared");
-
+                        //get values form the json
                         Double treshold_ph_max = values.getDouble("treshold_ph_max");
                         Double treshold_ph_min = values.getDouble("treshold_ph_min");
                         Double treshold_soil_max = values.getDouble("treshold_soil_max");
                         Double treshold_soil_min = values.getDouble("treshold_soil_min");
                         Double treshold_temp_max = values.getDouble("treshold_temp_max");
                         Double treshold_temp_min = values.getDouble("treshold_temp_min");
-
+                        //get the widget instances
                         EditText minSoilMoisture = findViewById(R.id.minSoilmoisture);
                         EditText maxSoilMoisture= findViewById(R.id.maxSoilmoisture);
                         EditText minPH = findViewById(R.id.minPH);
                         EditText maxPH = findViewById(R.id.maxPH);
                         EditText minTemp = findViewById(R.id.temperatureMin);
                         EditText maxTemp = findViewById(R.id.temperatureMax);
-
-
+                        //set threshold values in the interface
                         maxSoilMoisture.setText(String.format("%.1f", treshold_soil_max));
                         minSoilMoisture.setText(String.format("%.1f", treshold_soil_min));
-
                         maxPH.setText(String.format("%.1f", treshold_ph_max));
                         minPH.setText(String.format("%.1f", treshold_ph_min));
-
                         maxTemp.setText(String.format("%.1f", treshold_temp_max));
                         minTemp.setText(String.format("%.1f", treshold_temp_min));
 
@@ -142,12 +144,12 @@ public class Change_Treshold extends AppCompatActivity {
     }
 
     public void sendThresholdsValues(float treshold_ph_min, float treshold_ph_max,float treshold_soil_min, float treshold_soil_max, float treshold_temp_min, float treshold_temp_max){
+        //get instance of the rest service class
         RestRequests rest = ServiceGenerator.createService(RestRequests.class);
-
-
+        //get user token to add in the request
         SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
         String tokenString = sharedPref.getString("token", null);
-
+        //create json to send the new thresholds
         JsonObject thresholdjson = new JsonObject();
         thresholdjson.addProperty("treshold_ph_max", treshold_ph_max);
         thresholdjson.addProperty("treshold_ph_min", treshold_ph_min);
@@ -155,12 +157,14 @@ public class Change_Treshold extends AppCompatActivity {
         thresholdjson.addProperty("treshold_soil_min", treshold_soil_min);
         thresholdjson.addProperty("treshold_temp_max", treshold_temp_max);
         thresholdjson.addProperty("treshold_temp_min", treshold_temp_min);
+        //execute the rest function to send the thresholds to thingsboard
         Call<Void> resp = rest.sendThresholdsValues(thresholdjson, tokenString);
 
         resp.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if(response.code() == 200){
+                    //if it was a successfully request
                     try{
                         Toast.makeText(getApplicationContext(), "Command sent successfully", Toast.LENGTH_SHORT).show();
                     }catch (Exception ex){
