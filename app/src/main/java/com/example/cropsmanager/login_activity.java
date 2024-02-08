@@ -34,34 +34,40 @@ public class login_activity extends AppCompatActivity {
 
         Button b = findViewById(R.id.loginButton);
         b.setOnClickListener(new View.OnClickListener() {
+            //set listener to the login button
             @Override
             public void onClick(View view) {
                 login();
             }
         });
-
-
-
     }
 
 
-    public void login(){
+    public void login(){ //executed when login button is pressed
+
+        //get instance of the rest service class
         RestRequests rest = ServiceGenerator.createService(RestRequests.class);
+
+        //create json to send the user and password
         JsonObject user = new JsonObject();
         EditText username = findViewById(R.id.username);
         EditText password = findViewById(R.id.password);
         user.addProperty("username", username.getText().toString());
         user.addProperty("password", password.getText().toString());
+
+        //execute the rest function to login
         Call<JsonObject> resp = rest.getToken(user);
         resp.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if(response.code() == 200){
+                    //if it was a successfully request
                     try{
-
+                        // get json in the body of the response message
                         JSONObject js = new JSONObject(response.body().toString());
+                        //get token in the json
                         String token = js.getString("token");
-
+                        //store json in the shared preferences
                         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                         SharedPreferences.Editor editor = sharedPref.edit();
                         editor.putString("token", token);
@@ -72,6 +78,7 @@ public class login_activity extends AppCompatActivity {
                         SharedPreferences shared = getPreferences(Context.MODE_PRIVATE);
                         String tokenString = shared.getString("token", null);
 
+                        //move to main activity
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                         startActivity(intent);
 
@@ -81,7 +88,7 @@ public class login_activity extends AppCompatActivity {
 
                 }else{
 
-
+                    //if code is not 200, then display a dialog warning the failure
                     new AlertDialog.Builder(login_activity.this)
                             .setTitle("Error when log-in")
                             .setMessage("Authetication failed: error code " + response.code())
