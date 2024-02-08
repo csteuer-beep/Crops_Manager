@@ -53,6 +53,10 @@ public class TimePickerFragment extends DialogFragment {
             dialog.dismiss();
         });
 
+        dialog.findViewById(R.id.btnCancel).setOnClickListener(v -> {
+            dialog.dismiss();
+        });
+
         return dialog;
     }
 }

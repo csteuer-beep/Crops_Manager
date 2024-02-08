@@ -116,12 +116,12 @@ public class Change_Treshold extends AppCompatActivity {
 
 
                         maxSoilMoisture.setText(String.format("%.1f", treshold_soil_max));
-                        minSoilMoisture.setText(String.format("%.0f", treshold_soil_min));
+                        minSoilMoisture.setText(String.format("%.1f", treshold_soil_min));
 
                         maxPH.setText(String.format("%.1f", treshold_ph_max));
-                        minPH.setText(String.format("%.0f", treshold_ph_min));
+                        minPH.setText(String.format("%.1f", treshold_ph_min));
 
-                        maxTemp.setText(String.format("%.0f", treshold_temp_max));
+                        maxTemp.setText(String.format("%.1f", treshold_temp_max));
                         minTemp.setText(String.format("%.1f", treshold_temp_min));
 
 

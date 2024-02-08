@@ -359,7 +359,7 @@ public class MainActivity extends AppCompatActivity implements TimePickerFragmen
         });
     }
 
-    private void showTimePickerDialog() {
+    private void showTimePickerDialog()  {
         TimePickerFragment timePickerFragment = new TimePickerFragment();
         timePickerFragment.setListener(this);
         timePickerFragment.show(getSupportFragmentManager(), "timePicker");
