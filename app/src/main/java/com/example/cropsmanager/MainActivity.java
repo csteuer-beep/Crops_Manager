@@ -197,7 +197,7 @@ public class MainActivity extends AppCompatActivity implements TimePickerFragmen
                 if (isUserInitiatedChange) {
                     if (isChecked) {
                         // The toggle is enabled
-                        //sendCommand("start_irrigation");
+                        //sendCommand("start_irrigation")
                         showTimePickerDialog();
                     } else {
                         // The toggle is disabled
@@ -303,10 +303,10 @@ public class MainActivity extends AppCompatActivity implements TimePickerFragmen
                         }
 
                         temperatureTV.setText(String.format("%.1f", temperature) + " ºC");
-                        soilmoistureTV.setText(String.format("%.0f", soilmoisture) + " %");
+                        soilmoistureTV.setText(String.format("%.1f", soilmoisture) + " %");
                         distanceTV.setText(String.format("%.1f", distance) + " cm");
-                        phvalueTV.setText(String.format("%.0f", phvalue) + " pH");
-                        humidityTV.setText(String.format("%.0f", humidity) + " %");
+                        phvalueTV.setText(String.format("%.2f", phvalue) + " pH");
+                        humidityTV.setText(String.format("%.1f", humidity) + " %");
                         precipitationsTV.setText(String.format("%.1f", precipitation) + " mm");
 
                     }catch (Exception ex){

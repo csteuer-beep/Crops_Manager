@@ -3,6 +3,8 @@ package com.example.cropsmanager;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.widget.NumberPicker;
+import android.widget.Switch;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
@@ -49,7 +51,6 @@ public class TimePickerFragment extends DialogFragment {
             if (listener != null) {
                 listener.onTimeSet(minutes, seconds);
             }
-
             dialog.dismiss();
         });
 
