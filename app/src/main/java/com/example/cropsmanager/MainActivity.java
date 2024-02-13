@@ -307,7 +307,7 @@ public class MainActivity extends AppCompatActivity implements TimePickerFragmen
                         //set measured values in the interface
                         temperatureTV.setText(String.format("%.1f", temperature) + " ºC");
                         soilmoistureTV.setText(String.format("%.1f", soilmoisture) + " %");
-                        distanceTV.setText(String.format("%.1f", distance) + " cm");
+                        distanceTV.setText(String.format("%.1f", distance));
                         phvalueTV.setText(String.format("%.2f", phvalue) + " pH");
                         humidityTV.setText(String.format("%.1f", humidity) + " %");
                         precipitationsTV.setText(String.format("%.1f", precipitation) + " mm");
